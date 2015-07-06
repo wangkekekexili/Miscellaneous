@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
  * @author kewang
  *
  */
-public class EnglishChineseDictionary {
+public class Dictionary {
 
 	private static final String URL = "http://dictionary.cambridge.org/us/dictionary/english-chinese-simplified/";
 	

@@ -26,7 +26,7 @@ public class SimpleGui extends JFrame {
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String result = EnglishChineseDictionary.searchForDefination(
+				String result = Dictionary.searchForDefination(
 						wordToSearch.getText().replaceAll(
 								Pattern.quote(" "), "_"));
 				resultArea.setText(result);
