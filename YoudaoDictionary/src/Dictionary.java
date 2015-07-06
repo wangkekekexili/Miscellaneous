@@ -1,7 +1,3 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 /**
  * Use Cambridge web service to translate from English to simplified Chinese.
  * 
@@ -10,34 +6,20 @@ import org.jsoup.select.Elements;
  */
 public class Dictionary {
 
-	private static final String URL = "http://dictionary.cambridge.org/us/dictionary/english-chinese-simplified/";
+	public static final String KEY_FROM = "KeAndYiyangsFamily";
+	public static final String API_KEY = "1266068425";
+	public static final String YOUDAO_DICT_URL = 
+			"http://fanyi.youdao.com/openapi.do?"
+			+ "keyfrom=KeAndYiyangsFamily"
+			+ "&key=1266068425"
+			+ "&type=data"
+			+ "&doctype=json"
+			+ "&version=1.1"
+			+ "&only=dict"
+			+ "&q=";
 	
 	public static String searchForDefination(String word) {
-		Document document = null;
-		try {
-			document = Jsoup.connect(URL+word).get();
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-		Elements titleElements = document
-				.getElementsByAttributeValue("class", "di-title cdo-section-title-hw");
-		if (titleElements.size() == 0) {
-			return "No result found on Cambridge English Chinese dictionary.";
-		}
-		
-		StringBuilder resultBuilder = new StringBuilder();
-		Elements definationBodies = document
-				.getElementsByAttributeValue("class", "def-body");
-		for (int i = 0;i != definationBodies.size();i++) {
-			resultBuilder.append(Integer.toString(i+1));
-			resultBuilder.append(": ");
-			resultBuilder.append(definationBodies.get(i)
-					.getElementsByTag("div").get(0)
-					.text().trim());
-			resultBuilder.append("\n");
-		}
-		
-		return resultBuilder.toString();
+		return "";
 	}
 
 }
