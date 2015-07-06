@@ -23,6 +23,15 @@ public class SimpleGui extends JFrame {
 		getContentPane().add(wordToSearch);
 		wordToSearch.setColumns(10);
 		
+		wordToSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String result = Dictionary.searchForDefination(
+						wordToSearch.getText().replaceAll(
+								Pattern.quote(" "), "_"));
+				resultArea.setText(result);
+			}
+		});
+		
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
