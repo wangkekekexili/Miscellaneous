@@ -22,19 +22,20 @@ public class SimpleGui extends JFrame {
 		getContentPane().setLayout(null);
 		
 		searchTextField = new JTextField();
-		searchTextField.setBounds(40, 5, 160, 30);
+		searchTextField.setBounds(40, 5, getWidth()-80, 30);
 		getContentPane().add(searchTextField);
 		
 		searchTextField.addActionListener(listener);
 		
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(listener);
-		searchButton.setBounds(62, 40, 117, 29);
+		searchButton.setBounds(60, 40, getWidth()-120, 30);
 		getContentPane().add(searchButton);
 		
 		resultTextArea = new JTextArea();
 		resultTextArea.setText("");
-		resultTextArea.setBounds(6, 81, 228, 211);
+		resultTextArea.setBounds(10, 80, getWidth()-20, 210);
+		resultTextArea.setLineWrap(true);
 		getContentPane().add(resultTextArea);
 	}
 

@@ -67,7 +67,7 @@ public class Dictionary {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0;i != defination.size();i++) {
 			result.append((i+1));
-			result.append(":");
+			result.append(".");
 			result.append(defination.get(i).toString().replace('"', ' '));
 			result.append("\n");
 		}
