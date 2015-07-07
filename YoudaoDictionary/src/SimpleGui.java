@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -19,7 +20,14 @@ public class SimpleGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SearchResult result = Dictionary.search(
 						wordToSearch.getText());
-				resultArea.setText(result.getContent());
+				if (result.hasResult() == true) {
+					resultArea.setForeground(Color.BLACK);
+					resultArea.setText(result.getContent());
+				} else {
+					resultArea.setForeground(Color.RED);
+					resultArea.setText(result.getContent());
+				}
+				
 			}
 		}
 		
