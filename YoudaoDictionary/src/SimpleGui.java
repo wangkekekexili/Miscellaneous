@@ -25,20 +25,18 @@ public class SimpleGui extends JFrame {
 		
 		wordToSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String result = Dictionary.searchForDefination(
-						wordToSearch.getText().replaceAll(
-								Pattern.quote(" "), "_"));
-				resultArea.setText(result);
+				SearchResult result = Dictionary.search(
+						wordToSearch.getText());
+				resultArea.setText(result.getContent());
 			}
 		});
 		
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String result = Dictionary.searchForDefination(
-						wordToSearch.getText().replaceAll(
-								Pattern.quote(" "), "_"));
-				resultArea.setText(result);
+				SearchResult result = Dictionary.search(
+						wordToSearch.getText());
+				resultArea.setText(result.getContent());
 			}
 		});
 		searchButton.setBounds(62, 40, 117, 29);
