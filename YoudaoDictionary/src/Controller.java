@@ -1,5 +1,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.concurrent.ConcurrentNavigableMap;
+
+import org.mapdb.DBMaker;
 
 import cache.Cache;
 import cache.SimpleCache;
@@ -7,11 +11,16 @@ import cache.SimpleCache;
 public class Controller implements ActionListener {
 
 	private SimpleGui frame;
-	private Cache cache;
+	private Cache inMemoryCache;
+	private ConcurrentNavigableMap<String, String> onDiskCache;
 	
 	public Controller(SimpleGui frame) {
 		this.frame = frame;
-		cache = new SimpleCache();
+		inMemoryCache = new SimpleCache();
+		onDiskCache = DBMaker.fileDB(new File("dictionary"))
+				.closeOnJvmShutdown()
+				.make()
+				.treeMap("youdao");
 	}
 	
 	@Override
@@ -23,14 +32,19 @@ public class Controller implements ActionListener {
 			@Override
 			public void run() {
 				String wordToSearch = frame.getWordToSearch();
-				if (cache.get(wordToSearch) != null) {
+				if (inMemoryCache.get(wordToSearch) != null) {
 					result = new SearchResult(true, 
-							cache.get(wordToSearch));
+							inMemoryCache.get(wordToSearch));
+				} else if (onDiskCache.get(wordToSearch) != null) {
+					result = new SearchResult(true, 
+							onDiskCache.get(wordToSearch));
+					inMemoryCache.put(wordToSearch, result.getContent());
 				} else {
 					result = Dictionary.search(
 							frame.getWordToSearch());
 					if (result.hasResult() == true) {
-						cache.put(wordToSearch, result.getContent());
+						inMemoryCache.put(wordToSearch, result.getContent());
+						onDiskCache.put(wordToSearch, result.getContent());
 					}
 				}
 			}
