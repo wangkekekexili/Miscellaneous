@@ -9,9 +9,21 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class SimpleGui extends JFrame {
+	
 	private JTextField wordToSearch;
 	private JTextArea resultArea;
 	public SimpleGui() {
+		
+		class SearchListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchResult result = Dictionary.search(
+						wordToSearch.getText());
+				resultArea.setText(result.getContent());
+			}
+		}
+		
+		SearchListener listener = new SearchListener();
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -19,26 +31,13 @@ public class SimpleGui extends JFrame {
 		getContentPane().setLayout(null);
 		
 		wordToSearch = new JTextField();
-		wordToSearch.setBounds(52, 6, 134, 28);
+		wordToSearch.setBounds(40, 5, 160, 30);
 		getContentPane().add(wordToSearch);
-		wordToSearch.setColumns(10);
 		
-		wordToSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SearchResult result = Dictionary.search(
-						wordToSearch.getText());
-				resultArea.setText(result.getContent());
-			}
-		});
+		wordToSearch.addActionListener(listener);
 		
 		JButton searchButton = new JButton("Search");
-		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SearchResult result = Dictionary.search(
-						wordToSearch.getText());
-				resultArea.setText(result.getContent());
-			}
-		});
+		searchButton.addActionListener(listener);
 		searchButton.setBounds(62, 40, 117, 29);
 		getContentPane().add(searchButton);
 		
