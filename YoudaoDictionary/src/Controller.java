@@ -23,14 +23,14 @@ public class Controller implements ActionListener {
 			@Override
 			public void run() {
 				String wordToSearch = frame.getWordToSearch();
-				if (cache.search(wordToSearch) != null) {
+				if (cache.get(wordToSearch) != null) {
 					result = new SearchResult(true, 
-							cache.search(wordToSearch));
+							cache.get(wordToSearch));
 				} else {
 					result = Dictionary.search(
 							frame.getWordToSearch());
 					if (result.hasResult() == true) {
-						cache.update(wordToSearch, result.getContent());
+						cache.put(wordToSearch, result.getContent());
 					}
 				}
 			}
