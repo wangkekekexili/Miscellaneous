@@ -1,12 +1,12 @@
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class SimpleGui extends JFrame {
@@ -18,8 +18,32 @@ public class SimpleGui extends JFrame {
 		class SearchListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SearchResult result = Dictionary.search(
-						wordToSearch.getText());
+				
+				class SearchThread extends Thread {
+					private SearchResult result = new SearchResult(
+							false, "Search thread error.");
+					@Override
+					public void run() {
+						result = Dictionary.search(
+								wordToSearch.getText());
+					}
+					
+					public SearchResult getSearchResult() {
+						return result;
+					}
+				}
+				
+				SearchThread thread = new SearchThread();
+				thread.start();
+				
+				try {
+					thread.join();
+				} catch (Exception e1) {
+					thread.interrupt();
+				}
+				
+				SearchResult result = thread.getSearchResult();
+				
 				if (result.hasResult() == true) {
 					resultArea.setForeground(Color.BLACK);
 					resultArea.setText(result.getContent());
@@ -34,6 +58,7 @@ public class SimpleGui extends JFrame {
 		SearchListener listener = new SearchListener();
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
 		
 		setSize(240, 320);
 		getContentPane().setLayout(null);
