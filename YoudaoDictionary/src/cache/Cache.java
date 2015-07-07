@@ -1,3 +1,4 @@
+package cache;
 
 public abstract class Cache {
 	public abstract String search(String word);

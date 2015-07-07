@@ -1,12 +1,17 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import cache.Cache;
+import cache.SimpleCache;
+
 public class Controller implements ActionListener {
 
 	private SimpleGui frame;
+	private Cache cache;
 	
 	public Controller(SimpleGui frame) {
 		this.frame = frame;
+		cache = new SimpleCache();
 	}
 	
 	@Override
@@ -17,8 +22,17 @@ public class Controller implements ActionListener {
 					false, "Search thread error.");
 			@Override
 			public void run() {
-				result = Dictionary.search(
-						frame.getWordToSearch());
+				String wordToSearch = frame.getWordToSearch();
+				if (cache.search(wordToSearch) != null) {
+					result = new SearchResult(true, 
+							cache.search(wordToSearch));
+				} else {
+					result = Dictionary.search(
+							frame.getWordToSearch());
+					if (result.hasResult() == true) {
+						cache.update(wordToSearch, result.getContent());
+					}
+				}
 			}
 			
 			public SearchResult getSearchResult() {
